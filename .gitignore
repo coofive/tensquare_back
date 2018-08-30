@@ -18,6 +18,3 @@ gen
 **/target/
 target/
 
-.idea/
-pom.xml
-tensquare_common/
