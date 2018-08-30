@@ -1,0 +1,16 @@
+server:
+  port: 9001 #服务端口
+spring:
+  application:
+    name: tensquare-base
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:33307/tensquare_base?characterEncoding=utf-8
+    username: root
+    password: 123456
+  # 整合jpa设置
+  jpa:
+    database: mysql
+    show-sql: true
+    generate-ddl: true
