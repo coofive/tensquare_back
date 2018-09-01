@@ -3,11 +3,14 @@ package com.tensquare.base.web.controller;
 import com.tensquare.base.po.Label;
 import com.tensquare.base.service.LabelService;
 import constants.StatusCode;
+import dto.PageResultDTO;
 import dto.ResultDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 标签控制层
@@ -85,5 +88,30 @@ public class LabelController {
         int i = 1 / 0;
         Label label = labelService.findLabelById(labelId);
         return new ResultDTO(true, StatusCode.OK, "查询成功", label);
+    }
+
+    /**
+     * 根据条件查询标签
+     *
+     * @return
+     */
+    @PostMapping("/search")
+    public ResultDTO list(@RequestBody Map<String, Object> searchMap) {
+        List<Label> list = labelService.findLabelList(searchMap);
+        return new ResultDTO(true, StatusCode.OK, "查询成功", list);
+    }
+
+
+    /**
+     * 根据条件分页查询标签
+     *
+     * @return
+     */
+    @PostMapping("/search/{page}/{size}")
+    public ResultDTO list(@RequestBody Map<String, Object> searchMap, @PathVariable int page, @PathVariable int size) {
+        Page<Label> pageResponse = labelService.findLabelList(searchMap, page, size);
+        // 构建返回data
+        PageResultDTO<Label> labelPageResultDTO = new PageResultDTO<>(pageResponse.getTotalElements(), pageResponse.getContent());
+        return new ResultDTO(true, StatusCode.OK, "查询成功", labelPageResultDTO);
     }
 }
